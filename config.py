@@ -1,5 +1,5 @@
 # programming languages you are interested in and want to crawl
-LANGUAGES = ['python', 'java', 'unknown', 'javascript', 'html', 'go']
+LANGUAGES = ['python', 'cpp']
 
 # frequency of trending
 FREQUENCY = ['daily', 'weekly', 'monthly']

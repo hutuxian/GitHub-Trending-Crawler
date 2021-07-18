@@ -7,7 +7,8 @@ from pyquery import PyQuery as pq
 
 from config import TRENDING_URL, HEADERS, MD_FILE_NAME, LANGUAGES, FREQUENCY, PROXY_POOL_API
 from repository_info import RepoInfo
-from utils.file_util import append_infos_to_md, create_markdown, generate_wordcloud, append_img_to_md
+# from utils.file_util import append_infos_to_md, create_markdown, generate_wordcloud, append_img_to_md
+from utils.file_util import append_infos_to_md, create_markdown
 
 
 class GitHubCrawler:
@@ -64,18 +65,19 @@ class GitHubCrawler:
         repo_infos = []
         try:
             articles = dollar(
-                '.explore-pjax-container.container-lg.p-responsive.pt-6 > div > div:nth-child(2)').children()
+                # '.explore-pjax-container.container-lg.p-responsive.pt-6 > div > div:nth-child(2)').children()
+                '.position-relative.container-lg.p-responsive.pt-6 > div > div:nth-child(2)').children()
             for i in range(len(articles)):
                 article = articles.eq(i)
 
                 # href: '/Username/RepoName'
                 href = article('.lh-condensed a').attr('href')
-
                 # the description about the repo
-                desc = article('.col-9.text-gray.my-1.pr-4').text().strip().replace('\n', '')
-
+                # desc = article('.col-9.text-gray.my-1.pr-4').text().strip().replace('\n', '')
+                desc = article('.col-9.color-text-secondary.my-1.pr-4').text().strip().replace('\n', '')
                 # how many stars it got
-                stars = article('div.f6.text-gray.mt-2 > span.d-inline-block.float-sm-right').text().strip()
+                # stars = article('div.f6.text-gray.mt-2 > span.d-inline-block.float-sm-right').text().strip()
+                stars = article('div.f6.color-text-secondary.mt-2 > span.d-inline-block.float-sm-right').text().strip()
 
                 repo_infos.append(RepoInfo(href=href, stars=stars, desc=desc))
         except Exception:
@@ -104,7 +106,6 @@ class GitHubCrawler:
 
             # if the status code is not 200, then raise the error
             r.raise_for_status()
-
             # use pyquery to parse html
             ret = self.parse(pq(r.text))
 
@@ -139,6 +140,6 @@ class GitHubCrawler:
             for info in infos:
                 descriptions.append(info.desc)
 
-        path = generate_wordcloud(descriptions=descriptions, filename=today_date)
-        append_img_to_md(img_path=path, md_path=filename)
+        # path = generate_wordcloud(descriptions=descriptions, filename=today_date)
+        # append_img_to_md(img_path=path, md_path=filename)
         self.logger.info("Finish crawling: %s", today_date)

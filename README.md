@@ -2,6 +2,11 @@
 
 Crawling [GitHub Trending Pages](https://github.com/trending/) every day.
 
+
+## 注意
+
++ 当无法准确解析request.get请求回来的html页面的时候，很可能是github改变了排班模式。此时可以通过chrome的”检查“功能定位对应的class或者标签，对pyquery部分稍作修改。
+
 ## Introduction
 
 The program is highly recommend to be deployed on a Linux server, which can crawl information about popular repositories of languages you are interested in on GitHub every day. Then it will create a markdown file to record those information and generate a wordcloud image according to repositories' descriptions.
